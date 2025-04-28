@@ -3,7 +3,7 @@
 
 Bem-vindo ao **Botanica FrontEnd**! O lugar perfeito para você explorar e gerenciar o mundo das plantas. 🌱✨
 
-Este projeto oferece uma plataforma moderna para o gerenciamento e exibição de informações sobre espécies de plantas. Criado com **React**, **Vite**, **Tailwind CSS**, e **Framer Motion**, proporciona uma experiência **interativa**, **visual** e **responsiva**.
+Este projeto oferece uma plataforma moderna para o gerenciamento e exibição de informações sobre espécies de plantas. Criado com **React**, **Vite**, e **Tailwind CSS**, proporciona uma experiência **interativa**, **visual** e **responsiva**.
 
 ---
 
@@ -14,10 +14,10 @@ Aqui estão as principais tecnologias que utilizamos para construir o **Botanica
 - **React** 🧩 (Frontend Framework)
 - **Vite** 🚀 (Ferramenta de build ultrarrápida)
 - **Tailwind CSS** 🌸 (Framework de estilização)
-- **Framer Motion** 🎥 (Animações e transições)
 - **Axios** 🌐 (Comunicação com a API)
 - **Font Awesome** 🎨 (Ícones)
 - **Poppins** 🖋️ (Fonte principal para a aplicação)
+- **Framer Motion** 🎞️ (Animações)
 
 ---
 
@@ -29,7 +29,6 @@ O **Botanica** oferece diversas funcionalidades para proporcionar uma experiênc
 - **Modal de Adição de Plantas** ➕: Adicione novas espécies, complete as informações e faça upload de imagens.
 - **Modal de Edição e Exclusão** ✏️❌: Edite ou exclua plantas já cadastradas.
 - **Design Responsivo** 📱💻: A interface se adapta perfeitamente a diferentes tamanhos de tela.
-- **Animações Interativas** 🎬: Usamos **Framer Motion** para adicionar transições suaves e animações interativas para melhorar a experiência do usuário.
 - **Autenticação** 🔐 (Futuramente): Planejamos integrar autenticação de usuários e controle de permissões.
 
 ---
@@ -80,6 +79,7 @@ Botanica-FrontEnd/
 ├── tailwind.config.js      # Configuração do Tailwind CSS
 ├── vite.config.js          # Configuração do Vite
 ├── package.json            # Dependências do projeto
+├── dist/                   # Arquivos gerados na build de produção
 └── README.md               # Este arquivo!
 ```
 
@@ -121,9 +121,6 @@ Se você quer contribuir para o projeto, siga os passos abaixo:
    ```
 
 7. Abra um **Pull Request** no repositório original.
-
----
-
 
 ---
 
