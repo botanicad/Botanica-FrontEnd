@@ -122,20 +122,6 @@ Se você quer contribuir para o projeto, siga os passos abaixo:
 
 ---
 
-## 📅 **Roadmap** 🚧
-
-Aqui está o que ainda planejamos implementar:
-
-- [ ] **Integração com back-end** para persistência de dados.
-- [ ] **Autenticação de usuário** com login e registro.
-- [ ] **Melhoria na responsividade** para garantir uma experiência fluida em qualquer dispositivo.
-- [ ] **Testes automatizados** para garantir a estabilidade da aplicação.
-
----
-
-## 📜 **Licença** 🔓
-
-Este projeto é licenciado sob a Licença **MIT** - veja o arquivo [LICENSE](LICENSE) para mais detalhes.
 
 ---
 
