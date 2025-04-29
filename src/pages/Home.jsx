@@ -1,9 +1,12 @@
 import { useEffect, useState } from "react";
+import { motion } from "framer-motion";
+import { Leaf } from "lucide-react";
+import toast, { Toaster } from "react-hot-toast";
 import axios from "../services/api";
 import Header from "../components/header/Header";
 import SearchBar from "../components/searchBar/SearchBar";
 import PlantCard from "../components/card/Card";
-import MobilePlantCard from "../components/card/MobileCard";  // Importando o MobilePlantCard
+import MobilePlantCard from "../components/card/MobileCard";  
 import ModalDetalhes from "../components/modals/ModalDetalhes";
 import ModalAdicionar from "../components/modals/ModalAdicionar";
 import ModalExcluir from "../components/modals/ModalExcluir";
@@ -31,6 +34,7 @@ export default function Home() {
       setPlantas(res.data);
     } catch (err) {
       console.error("Erro ao buscar plantas", err);
+      toast.error("Erro ao carregar plantas!");
     } finally {
       setLoading(false);
     }
@@ -41,8 +45,10 @@ export default function Home() {
       await axios.post("/flora", formData);
       fecharModal("criar");
       buscarPlantas();
+      toast.success("Planta adicionada com sucesso!");
     } catch (err) {
       console.error("Erro ao criar planta", err);
+      toast.error("Erro ao adicionar planta.");
     }
   };
 
@@ -51,8 +57,10 @@ export default function Home() {
       await axios.put(`/flora/${plantaSelecionada.id}`, formData);
       fecharModal("editar");
       buscarPlantas();
+      toast.success("Planta editada com sucesso!");
     } catch (err) {
       console.error("Erro ao editar planta", err);
+      toast.error("Erro ao editar planta.");
     }
   };
 
@@ -61,8 +69,10 @@ export default function Home() {
       await axios.delete(`/flora/${plantaSelecionada.id}`);
       fecharModal("excluir");
       buscarPlantas();
+      toast.success("Planta excluída com sucesso!");
     } catch (err) {
       console.error("Erro ao excluir planta", err);
+      toast.error("Erro ao excluir planta.");
     }
   };
 
@@ -73,14 +83,57 @@ export default function Home() {
 
   if (loading) {
     return (
-      <div className="flex justify-center items-center h-screen">
-        <div className="animate-spin rounded-full h-12 w-12 border-t-2 border-b-2 border-[#3a5a40]"></div>
+      <div className="flex flex-col justify-center items-center h-screen bg-[#f8f9fa]">
+        <motion.div
+          animate={{ rotate: 360 }}
+          transition={{ repeat: Infinity, duration: 1.5, ease: "linear" }}
+          className="flex justify-center items-center bg-[#3a5a40] rounded-full p-6 shadow-lg"
+        >
+          <Leaf size={48} className="text-white" />
+        </motion.div>
+
+        <motion.p
+          initial={{ opacity: 0.3 }}
+          animate={{ opacity: 1 }}
+          transition={{ repeat: Infinity, duration: 1, ease: "easeInOut", repeatType: "reverse" }}
+          className="mt-6 text-[#3a5a40] text-lg font-semibold"
+        >
+          Carregando suas plantas...
+        </motion.p>
       </div>
     );
   }
 
   return (
     <div className="p-4 sm:p-6 bg-[#f8f9fa] min-h-screen">
+      <Toaster
+        position="top-center"
+        reverseOrder={false}
+        toastOptions={{
+          duration: 3000,
+          style: {
+            background: "#344E41",
+            color: "#fff",
+            borderRadius: "12px",
+            fontFamily: "Poppins, sans-serif",
+            fontSize: "14px",
+            padding: "12px 20px",
+          },
+          success: {
+            iconTheme: {
+              primary: "#A3B18A",
+              secondary: "#fff",
+            },
+          },
+          error: {
+            iconTheme: {
+              primary: "#e63946",
+              secondary: "#fff",
+            },
+          },
+        }}
+      />
+
       <div className="max-w-6xl mx-auto">
         <Header onAdicionar={() => abrirModal("criar")} />
         <SearchBar busca={busca} setBusca={setBusca} />
