@@ -1,0 +1,153 @@
+import { useState } from "react";
+import { X } from "lucide-react";
+import SimboloImagem from "../../assets/svgs/SimboloImagem.svg";
+
+export default function ModalEditar({ onClose, onSubmit, planta }) {
+  const [imagem, setImagem] = useState(null);
+  const [preview, setPreview] = useState(
+    planta?.imagemBase64 ? `data:image/jpeg;base64,${planta.imagemBase64}` : null
+  );
+  const [form, setForm] = useState({
+    nomePopular: planta.nomePopular || "",
+    nomeCientifico: planta.nomeCientifico || "",
+    historiaPlanta: planta.historiaPlanta || "",
+    rega: planta.rega || "",
+    luz: planta.luz || ""
+  });
+
+  const handleImageChange = (e) => {
+    const file = e.target.files[0];
+    setImagem(file);
+    if (file) {
+      const reader = new FileReader();
+      reader.onloadend = () => setPreview(reader.result);
+      reader.readAsDataURL(file);
+    }
+  };
+
+  const handleChange = (e) => {
+    const { name, value } = e.target;
+    setForm((prev) => ({ ...prev, [name]: value }));
+  };
+
+  const handleSubmit = () => {
+    if (imagem) {
+      const reader = new FileReader();
+      reader.onloadend = () => {
+        const base64String = reader.result.split(",")[1];
+        onSubmit({ ...form, imagemBase64: base64String });
+        onClose();
+      };
+      reader.readAsDataURL(imagem);
+    } else {
+      // Usa imagem já existente caso nenhuma nova seja selecionada
+      onSubmit({ ...form, imagemBase64: planta.imagemBase64 });
+      onClose();
+    }
+  };
+
+  return (
+    <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/50 backdrop-blur-sm p-4">
+      <div className="bg-white rounded-3xl shadow-2xl p-6 w-full max-w-4xl max-h-[90vh] overflow-y-auto relative border border-gray-100 transition-all">
+        
+        <button
+          onClick={onClose}
+          className="absolute right-6 top-6 p-2 rounded-full hover:bg-gray-200 transition-colors"
+        >
+          <X size={24} className="text-gray-600 hover:text-gray-900" />
+        </button>
+
+        <h2 className="text-2xl font-bold text-[#344E41] mb-6 text-center font-poppins">
+          Editar planta
+        </h2>
+
+        <div className="grid grid-cols-1 md:grid-cols-5 gap-6">
+          {/* Imagem */}
+          <div className="md:col-span-2">
+            <label className="border-2 border-dashed border-gray-300 w-full aspect-[4/3] flex flex-col justify-center items-center rounded-xl cursor-pointer shadow-md bg-gray-50 hover:bg-gray-100 transition-all duration-300">
+              {preview ? (
+                <img
+                  src={preview}
+                  alt="Prévia"
+                  className="w-full h-full object-cover rounded-xl"
+                />
+              ) : (
+                <>
+                  <img src={SimboloImagem} alt="Ícone" className="w-10 h-10 mb-2" />
+                  <p className="text-center text-sm text-gray-500 font-medium">
+                    Coloque sua imagem aqui
+                  </p>
+                </>
+              )}
+              <input type="file" accept="image/*" onChange={handleImageChange} className="hidden" />
+            </label>
+          </div>
+
+          {/* Formulário */}
+          <div className="md:col-span-3 grid grid-cols-1 md:grid-cols-2 gap-4">
+            <div>
+              <label className="text-sm font-semibold text-gray-700 mb-1 block">Nome Popular</label>
+              <input
+                name="nomePopular"
+                value={form.nomePopular}
+                onChange={handleChange}
+                className="w-full border border-gray-300 rounded-lg px-4 py-2 text-sm shadow-sm focus:ring-2 focus:ring-[#344E41] focus:outline-none"
+                placeholder="Exemplo título"
+              />
+            </div>
+            <div>
+              <label className="text-sm font-semibold text-gray-700 mb-1 block">Rega</label>
+              <input
+                name="rega"
+                value={form.rega}
+                onChange={handleChange}
+                className="w-full border border-gray-300 rounded-lg px-4 py-2 text-sm shadow-sm focus:ring-2 focus:ring-[#344E41] focus:outline-none"
+                placeholder="Exemplo título"
+              />
+            </div>
+            <div>
+              <label className="text-sm font-semibold text-gray-700 mb-1 block">Nome Científico</label>
+              <input
+                name="nomeCientifico"
+                value={form.nomeCientifico}
+                onChange={handleChange}
+                className="w-full border border-gray-300 rounded-lg px-4 py-2 text-sm shadow-sm focus:ring-2 focus:ring-[#344E41] focus:outline-none"
+                placeholder="Exemplo título"
+              />
+            </div>
+            <div>
+              <label className="text-sm font-semibold text-gray-700 mb-1 block">Iluminação</label>
+              <input
+                name="luz"
+                value={form.luz}
+                onChange={handleChange}
+                className="w-full border border-gray-300 rounded-lg px-4 py-2 text-sm shadow-sm focus:ring-2 focus:ring-[#344E41] focus:outline-none"
+                placeholder="Exemplo título"
+              />
+            </div>
+            <div className="md:col-span-2">
+              <label className="text-sm font-semibold text-gray-700 mb-1 block">História</label>
+              <textarea
+                name="historiaPlanta"
+                value={form.historiaPlanta}
+                onChange={handleChange}
+                rows={4}
+                className="w-full border border-gray-300 rounded-lg px-4 py-2 text-sm shadow-sm resize-none focus:ring-2 focus:ring-[#344E41] focus:outline-none"
+                placeholder="Conte a história..."
+              />
+            </div>
+          </div>
+        </div>
+
+        <div className="mt-6 pt-4 border-t border-gray-200 flex justify-end bg-white">
+          <button
+            onClick={handleSubmit}
+            className="bg-[#344E41] text-white font-semibold px-6 py-2 rounded-md shadow-md hover:bg-[#2C3E36] transition-all"
+          >
+            Atualizar
+          </button>
+        </div>
+      </div>
+    </div>
+  );
+}
